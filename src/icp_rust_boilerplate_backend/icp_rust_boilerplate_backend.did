@@ -1,3 +1,25 @@
+type Error = variant { NotFound : record { msg : text } };
+type Event = record {
+  id : nat64;
+  max_attendant : nat32;
+  title : text;
+  updated_at : opt nat64;
+  date : text;
+  time : text;
+  created_at : nat64;
+  attachment_url : text;
+};
+type EventPayload = record {
+  max_attendant : nat32;
+  title : text;
+  date : text;
+  time : text;
+  attachment_url : text;
+};
+type Result = variant { Ok : Event; Err : Error };
 service : {
-    "greet": (text) -> (text) query;
+  add_event : (EventPayload) -> (opt Event);
+  delete_event : (nat64) -> (Result);
+  get_event : (nat64) -> (Result) query;
+  update_event : (nat64, EventPayload) -> (Result);
 }
